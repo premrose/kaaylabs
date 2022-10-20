@@ -1,0 +1,16 @@
+tr{
+  max-width: 970px;
+  height: 50px;
+  border-color: #F0F4F7;
+}
+.table-responsive{
+  overflow-y: hidden !important;
+}
+.table-light{
+  border: none;
+  border-style: hidden;
+}
+.img-thumbnail{
+  width: 45%;
+  max-width: 45%;
+}
