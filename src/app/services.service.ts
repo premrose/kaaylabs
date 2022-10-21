@@ -16,4 +16,8 @@ export class ServicesService {
     return this.http.get<any>(this.url + "?page=" + page + "&per_page=10",)
   }
 
+  getSearch(search: string): Observable<Models[]> {
+    return this.http.get<any>(this.url + "?beer_name=" + search,)
+  }
+
 }

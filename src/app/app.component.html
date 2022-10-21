@@ -5,9 +5,9 @@
         <div class="d-flex flex-row justify-content-between my-2">
           <h3 class="mt-2 mb-3">List of Data's</h3>
           <div class="input-group w-25 h-25">
-            <input type="text" class="form-control" placeholder="Search Names" aria-label="Search Names" aria-describedby="input-data">
-            <span class="input-group-text bg-white rounded" id="input-data"
-              style="transform: rotate(180deg)" (onclick)="search()" >&#9740;</span>
+            <input type="text" class="form-control" placeholder="Search Names" name="search" id="search" [(ngModel)]="search">
+            <button class="input-group-text bg-white rounded" style="transform: rotate(180deg)"
+             (click)="searchButton()" >&#9740;</button>
           </div>
         </div>
         <div class="table-responsive">
@@ -22,17 +22,30 @@
                 <th scope="col" class="text-black-50 border-0 text-center">Image</th>
               </tr>
             </thead>
-            <tbody>
-              <tr class="table" *ngFor="let item of models | paginate: { itemsPerPage: 10, currentPage: page, totalItems: totalpages }">
-                <td>{{ item.id }}</td>
-                <td>{{ item.name }}</td>
-                <td>{{ item.tagline }}</td>
-                <td>{{ item.first_brewed }}</td>
-                <td>{{ item.description }}</td>
-                <td class="text-center"><img class="img-thumbnail border-0" src="{{ item.image_url }}" alt=""></td>
-              </tr>
-              <tr>
-            </tbody>
+            <ng-container *ngIf="searchesLength == 0; else Data">
+              <tbody>
+                <tr class="table" *ngFor="let item of models | paginate: { itemsPerPage: 10, currentPage: page, totalItems: totalpages }">
+                  <td>{{ item.id }}</td>
+                  <td>{{ item.name }}</td>
+                  <td>{{ item.tagline }}</td>
+                  <td>{{ item.first_brewed }}</td>
+                  <td>{{ item.description }}</td>
+                  <td class="text-center"><img class="img-thumbnail border-0" src="{{ item.image_url }}" alt=""></td>
+                </tr>
+              </tbody>
+            </ng-container>
+            <ng-template #Data>
+              <tbody>
+                <tr class="table" *ngFor="let item of searches | paginate: { itemsPerPage: 10, currentPage: page, totalItems: searchesLength }">
+                  <td>{{ item.id }}</td>
+                  <td>{{ item.name }}</td>
+                  <td>{{ item.tagline }}</td>
+                  <td>{{ item.first_brewed }}</td>
+                  <td>{{ item.description }}</td>
+                  <td class="text-center"><img class="img-thumbnail border-0" src="{{ item.image_url }}" alt=""></td>
+                </tr>
+              </tbody>
+            </ng-template>
           </table>
         </div>
       </div>
@@ -42,5 +55,3 @@
     </div>
   </div>
 </div>
-
-<router-outlet></router-outlet>

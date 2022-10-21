@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { Models } from './models';
 import { ServicesService } from './services.service';
 
@@ -8,22 +8,28 @@ import { ServicesService } from './services.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent  implements OnInit{
 
   title = 'kaaylabs';
   page: number = 1;
-  totalpages: number = 325;
+  totalpages: number = 325; // can't get the total count cause it's seperated by 10 & 24
+  search: string = "";
 
   constructor(private services:ServicesService, private http: HttpClient){}
 
   models: Models[] = [];
+  searches: Models[] = [];
+  searchesLength = 0;
 
   ngOnInit() {
-    this.getDatas()
+    this.getDatas();
+    this.searchButton();
   }
 
   getDatas() {
-    this.services.getData(this.page).subscribe(model => this.models = model);
+    this.services.getData(this.page).subscribe(
+      model => this.models = model,
+    );
   }
 
   pageChangeEvent(event: number){
@@ -31,21 +37,11 @@ export class AppComponent {
     this.getDatas();
   }
 
-  search(){}
+  searchButton(){
+    this.services.getSearch(this.search).subscribe(
+      searche => this.searches = searche,
+    );
+    this.searchesLength = this.searches.length;
+  }
 
 }
-
-
-
-
-// Hi Prem
-
-// Design a Angular app to display the output from the below api in a table.
-// API : https://api.punkapi.com/v2/beers?page=<<page_number>>&per_page=10
-// There should be a pagination control below the table to show only 10 records at a time
-// Page number <<page_number>> should be passed dynamically to the above api from the pagination control
-// Implement an input box above the table, filter the table by "name" field as the user keys in the input box .
-// Use redux actions and reducers.
-// Use bootstrap to style the table
-
-// Let me know if you have any questions.
